@@ -380,16 +380,20 @@
                         price: itemPrice,
                         description: itemDescription,
                         imageUrl: itemImageUrl,
-                        status: active
+                        status: 'active',
+                        addToCart: false,
+                        quantity: 0,
+                        filter: false
                     }
                     items.push(item);
                     localStorage.setItem("items", JSON.stringify(items));
                     document.getElementById('popUpAdd').style.display = 'none';
                     window.location.reload();
                 }
-            }),
-                form.reset();
+            })
         }
+                // form.reset();
+        // }
             
         function editItem(index) {
             console.log(index);

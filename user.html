@@ -637,10 +637,23 @@
                             document.querySelector('main').appendChild(card);
                         }
                         else{
-                            console.log('no items');
+                            let card = document.createElement('div');
+                            card.innerHTML = `
+                                <h1>No Items Active, got to admin to activate items</h1>
+                            `;
+                            document.querySelector('main').appendChild(card);
+                            console.log('no items Active');
                         }
                     });
                 } 
+                else{
+                    let card = document.createElement('div');
+                    card.innerHTML = `
+                        <h1>No Items Found</h1>
+                    `;
+                    document.querySelector('main').appendChild(card);
+                    console.log('no items');
+                }
             } 
         }  
         getItems();
