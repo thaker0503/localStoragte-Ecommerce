@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Validation</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+           background-color: rgb(6, 148, 183); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            
+        }
+        main{
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            background-color: #fff;
+            height: 50vh;
+            border-radius: 50px;
+            box-shadow: 4px 4px 30px rgba(255, 255, 255, 0.735);
+            position: relative;
+        }
+        form{
+            width: 50%;
+            height: 40vh;
+        }
+        form h1{
+            font-size: 40px;
+            color: rgba(0, 0, 0, .8);
+            margin-bottom: 20px;
+            height: max-content;
+        }
+        .form-elements{
+            height: 60%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+        }
+        input{
+            font-size: 20px;
+            border: none;
+            outline: none;
+            width: 300px;
+            background-color: transparent;
+            color: rgba(0, 0, 0, .9);
+            border-bottom: 2px solid rgba(0, 0, 0, .8);
+            
+        }
+        input::placeholder{
+            color: rgba(0, 0, 0, .5);
+        }
+        
+        .error{
+            font-size: 16px;
+            color: rgba(255, 0, 0, .8);
+            width: 300px;
+            text-align: center;
+        }
+        .success{
+            color: green;
+            font-size: 16px;
+            position: relative;
+            text-align: center;
+
+        }
+        .errorEmail{
+            /* outline: 2px solid red; */
+            border-bottom: 2px solid rgba(255, 0, 0, .5);
+            
+        }
+        .errorEmail:focus{
+            border-bottom: 2px solid rgba(255, 0, 0, .9);
+        }
+        .errorEmail:focus{
+            /* outline: 2px solid rgba(255, 0, 0, .5); */
+            border-bottom: 2px solid rgba(255, 0, 0, .5);
+        }
+        .successEmail{
+            border-bottom: 2px solid green;
+        }
+
+            
+    </style>
+</head>
+
+<body>
+    <main>
+        <form id="regForm">
+            <h1>Registration Form</h1>
+            <div class="form-elements">
+                <input type="text" name="email" autocomplete="none"  class="" id="email" placeholder="Enter Email Id" /> <br>
+                <span id="error" class="error"></span> 
+                
+                
+            </div>
+        </form>
+    </main>
+
+    <script>
+        const email = document.getElementById('email');
+        const error = document.getElementById('error');
+       email.addEventListener('keyup', (e) => {
+            e.preventDefault();
+            if(email.value.length>0){
+                if (email.value.includes(' ')) {
+                    error.innerHTML = '* Email should not contain spaces';
+                    error.classList.remove('success');
+                    error.classList.add('error');
+                    email.classList.remove('successEmail');
+                    email.classList.add('errorEmail');
+                    email.focus();
+                    return;
+                }
+                if(email.value.split('@')[0] == '' ){
+                    error.innerHTML = '* Atleast one charcter before @';
+                    error.classList.remove('success');
+                    error.classList.add('error');
+                    email.classList.remove('successEmail');
+                    email.classList.add('errorEmail');   
+                    email.focus();
+                    return;
+                }
+                if(limitedChars()){
+                    error.innerHTML = '* Special character not allowed before @';
+                    error.classList.remove('success');
+                    error.classList.add('error');
+                    email.classList.remove('successEmail');
+                    email.classList.add('errorEmail');
+                    email.focus();
+                    return;
+                }
+                if(!email.value.includes('@')){
+                    error.innerHTML = '* Email should contain @';
+                    error.classList.remove('success');
+                    error.classList.add('error');
+                    email.classList.remove('successEmail');
+                    email.classList.add('errorEmail');   
+                    email.focus();
+                    return;
+                }
+                if(email.value.split('@').length>2){
+                    error.innerHTML = '* Email should contain only one @';
+                    error.classList.remove('success');
+                    error.classList.add('error');
+                    email.classList.remove('successEmail');
+                    email.classList.add('errorEmail');
+                    email.focus();
+                    return;
+                }
+                if(email.value.split('@')[1].split('.').length>2){
+                    error.innerHTML = '* Email should contain only one .';
+                    error.classList.remove('success');
+                    error.classList.add('error');
+                    email.classList.remove('successEmail');
+                    email.classList.add('errorEmail');
+                    email.focus();
+                    return;
+                }
+                if(email.value.split('@')[1].split('.')[0].length<1){
+                    error.innerHTML = '* Email should contain atleast one character between @ and .';
+                    error.classList.remove('success');
+                    error.classList.add('error');
+                    email.classList.remove('successEmail');
+                    email.classList.add('errorEmail');
+                    email.focus();
+                    return;
+                }
+                
+                if(email.value.split('.')[1].length<2 || email.value.split('.')[1].length>4 || checkNumbers()){
+                    
+                    error.innerHTML = '* Email should contain minimum two and maximum four alphabate characters after .';
+                    error.classList.remove('success');
+                    error.classList.add('error');
+                    email.classList.remove('successEmail');
+                    email.classList.add('errorEmail');
+                    email.focus();
+                    return;
+                }
+                
+                error.innerHTML = '* Email is valid';
+                error.classList.remove('error');
+                error.classList.add('success');
+                email.classList.remove('errorEmail');
+                email.classList.add('successEmail');
+            }
+            else{
+                error.innerHTML = '* Email is required';
+                email.focus();
+                return;
+            }
+
+        } );
+
+        function checkNumbers(){
+            const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+            for (var i = 0; i < email.value.split('.')[1].length; i++) {
+                console.log(i);
+                if (numbers.indexOf(email.value.split('.')[1].charAt(i)) >= 0) {
+                    return true
+                } 
+            }
+            return false
+        }
+
+        function limitedChars(){
+            const chars = ["!", "#", "$", "%", "^", "&", "*", "(", ")", "+", "=", "`", "~", ",", "/", "?", ";", ":", "'", "\"", "|", "[", "]", "{", "}", "<", ">", "\\", " "];
+            for (var i = 0; i < email.value.split('@')[0].length; i++) {
+                if (chars.indexOf(email.value.split('@')[0].charAt(i)) >= 0) {
+                    return true
+                } 
+            }
+            return false
+        }
+    </script>
+</body>
+
+</html>

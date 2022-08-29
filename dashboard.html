@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="./app.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.css"/>
+    <title>Dashboard</title>
+</head>
+<body>
+    <main>
+        <div id="loader" class="loading">
+            <img src="./img/ZZ5H.gif" alt="">
+        </div>
+
+        <div class="alert" id="alert">
+            <div class="alert-icon-wrapper">
+                <i class="fa fa-triangle-exclamation alert-icon"></i>
+            </div>
+            <span class="alert-text">Logged in successfully...</span>
+            <i class="fa fa-xmark" id="closeBtn" onclick="closeBtnClick()"></i>
+        </div>
+
+        <div id="dashboardOutput">
+            <div id="userName"></div>
+            <div id="userEmail"></div>
+            <button id="btnlogout" name="logout" onclick="logout(event)">Log Out</button>
+        </div>
+    </main>
+
+
+
+    <script>
+        window.onload = () => {
+            let index = window.location.search.split('?')[1];
+            let formData = JSON.parse(localStorage.getItem("formData"));
+            if (index > formData.length-1) {
+                alert('Invalid User');
+                window.location.href = "./index.html";
+            }
+            else {
+                displayUserDetails(index);
+                
+                const closeBtn = document.getElementById('closeBtn');
+                closeBtn.addEventListener('click', () => {
+                    document.getElementById('alert').style.display = 'none';
+                    clearInterval(alertInterval);
+                } );    
+                setInterval(() => {
+                    document.body.style.backgroundColor = "#5e5e5e";
+                    document.body.style.transition = "background-color .3s ease-in";
+                    document.getElementById("dashboardOutput").style.display = "flex";
+                    
+                }, 2000);
+                setTimeout(() => {
+                    document.getElementById("loader").style.display = "none";
+                }, 2000);
+                alertInterval = setInterval(() => {
+                    document.getElementById("alert").style.display = "block";
+                }, 2000);
+                
+            }
+            
+        }
+        
+        
+    </script>
+</body>
+</html>

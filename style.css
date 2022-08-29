@@ -1,0 +1,211 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 14px;
+    background: #2C2C2C;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    width: 50%;
+    background-color: #171717;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+#userLoginForm,#userRegisterForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 50vh;
+}
+#dashboardOutput{
+    display: none;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 50vh;
+}
+.loading, .loading img{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    fill: none;
+    /* animation: loader 1s infinite; */
+}
+.alert{
+    background-color: #d7d7d7;
+    width: 90%;
+    height: 40px;
+    border-radius: 5px;
+    position: absolute;
+    font-size: 20px;
+    color: #171717;
+    top: 7%;
+    display: none;
+    
+}
+.alert-icon-wrapper{
+    width: 10px;
+    color: #171717;
+}
+.alert-icon{
+    font-size: 30px;
+    position: absolute;
+    top: 8%;
+    left: 4%;
+}
+.alert-text{
+    position: absolute;
+    left: 14%;
+    top: 18%;
+    text-align: center;
+    
+}
+#closeBtn{
+    color: #171717;
+    position: absolute;
+    font-size: 30px;
+    right: 4%;
+    top: 10%;
+    cursor: pointer;
+
+}
+main h1,main div{
+    color: #d7d7d7;
+    width: 50%;
+    text-align: center;
+    font-size: x-large;
+}
+main div{
+    width: 100%;
+}
+input[name=name],input[name=password],input[name=email]{
+    border: none;
+    outline: none;
+    height: 5vh;
+    background: transparent;
+    font-size: 20px;
+    color: #d7d7d7;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #2C2C2C;
+}
+input[name=name]::placeholder,input[name=password]::placeholder,
+input[name=email]::placeholder{
+    color: #d7d7d7;
+    font-size: 20px;
+}
+#invalidName{
+    --invalid-error-message: none; 
+    position: relative;
+}
+#invalidName::after{
+    content: "\26A0    Please enter valid name.";
+    background: #2C2C2C;
+    color: #d7d7d7;
+    width: max-content;
+    padding: 5px;
+    font-size: larger;
+    position: absolute;
+    left: 0;
+    bottom: -110%;
+    border-radius: 5px;
+    display: var(--invalid-error-message, none); 
+}
+#invalidEmail{
+    position: relative;
+}
+#invalidEmail::after{
+    content: "\26A0    Please enter valid email address.";
+    background: #2C2C2C;
+    color: #d7d7d7;
+    width: max-content;
+    padding: 5px;
+    font-size: larger;
+    position: absolute;
+    left: 0;
+    bottom: -110%;
+    border-radius: 5px;
+    display: var(--invalid-error-message, none);
+}
+#invalidPassword{
+    position: relative;
+}
+#invalidPassword::after{
+    content: "\26A0 Password must be atleast 8 digits.";
+    background: #2C2C2C;
+    color: #d7d7d7;
+    width: max-content;
+    padding: 5px;
+    font-size: larger;
+    position: absolute;
+    left: 0;
+    bottom: -110%;
+    border-radius: 5px;
+    display: var(--invalid-error-message, none);
+}
+button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1em 2em;
+    border: 1px solid #2C2C2C;
+    cursor: pointer;
+    outline: none;
+    height: 5vh;
+    background: transparent;
+    font-size: 20px;
+    color: #d7d7d7;
+    border-radius: 100px;
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.1);
+    transition: all .3s ease-in-out;
+}
+button:hover{
+    background: #d7d7d7;
+    color: #171717;
+    box-shadow: 0px 5px 15px 0px rgba(255, 255, 255, .2);
+}
+
+@media screen and (max-width: 600px){
+    main{
+        width: 100%;
+    }
+    input[name=name],input[name=password],input[name=email]{
+        font-size: 15px;
+    }
+    input[name=name]::placeholder,input[name=password]::placeholder,
+    input[name=email]::placeholder{
+        font-size: 15px;
+    }
+    button{
+        font-size: 15px;
+    }
+    .alert{
+        width: 100%;
+    }
+    #userEmail{
+        font-size: 16px;
+    }
+}
+@keyframes loader {
+
+    0%{transform: rotate(0deg);}
+    100%{transform: rotate(360deg);}
+}

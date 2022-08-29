@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script type="text/javascript" src="./app.js" defer></script>
+  </head>
+  <body>
+    <main>  
+        <h1>Registration Form</h1>
+        <form id="userRegisterForm" role="form" onsubmit="signUp(event)" autocomplete="off">
+          <span id="invalidName"><input type="text" placeholder="Name" name="name"  /></span>
+          <span id="invalidEmail"><input type="email" placeholder="Email Id" name="email"  /></span>
+          <span id="invalidPassword"><input type="password" placeholder="Password" name="password"  /></span>
+          <button id="btn" name="submit">Register</button>
+        </form>
+    
+    </main>
+  </body>
+</html>

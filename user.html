@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/fontawesome.css"/>
+    <title>User Page</title>
+    <style>
+        @import url('http://fonts.cdnfonts.com/css/poppins');
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+
+        }
+        body{
+            background-color: #f5f5f5;
+            position: relative;
+        }
+        .navbar{
+            width: 100%;
+            height: 50px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+            padding: 0 20px;
+            position: static;
+        }
+        .navbar a{
+            text-decoration: none;
+            color: #000;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .navbar-links{
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .navbar-cart{
+            width: 50%;
+            
+        }
+        .navbar-cart a{
+            float: right;
+        }
+        .navbar-cart a i{
+            font-size: 20px;
+            color: rgb(21, 21, 61);
+        }
+        .navbar-cart a span{
+            font-size: 20px;
+            color: rgb(21, 21, 61);
+            margin-left: 10px;
+        }
+        .search-bar{
+            width: 100%;
+            height: 50px;
+            /* background-color: #fff; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+            /* margin-top: 20px; */
+            position: static;
+        }
+        .search-bar input{
+            width: 50%;
+            height: 30px;
+            outline: none;
+            border: none;
+            padding: 0 5px;
+            border-bottom: 1px solid rgb(21, 21, 61);
+            /* border-radius: 20px; */
+            /* box-shadow: 0px 5px 10px 5px rgba(0,0,0,0.1); */
+            position: relative;
+        }
+        .search-icon{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            right: 40%;
+            border: none;
+            background-color: transparent;
+            opacity: .5;
+            /* position: absolute; */
+        }
+        .cross-icon{
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            right: 39%;
+            border: none;
+            background-color: transparent;
+            opacity: 1;
+            position: absolute;
+            
+        }
+        main{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            flex-wrap: wrap;
+        }
+        .card,.card1{
+            width: min-content;
+            height: auto;
+            background-color: #fff;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin: 20px;
+        }
+        .card-body{
+            margin-top: 10px;
+            width: 100%;
+            height: 200px;
+            display: flex;
+            justify-content: space-between;
+            /* align-items: center; */
+            flex-direction: column;
+            
+        }
+        .card-title{
+            font-size: 26px;
+            font-weight: bold;
+            color: #2C2C2C;
+        }
+        .card-price{
+            font-size: 20px;
+            font-weight: bold;
+            color: #2C2C2C;
+        }
+        .card-text{
+            font-size: 16px;
+            color: #2C2C2C;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .btn{
+            font-size: 20px;
+            font-weight: bold;
+            color: #2C2C2C;
+            background-color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: left;
+            transition: all .3s ease-in-out;
+        }
+        .btn-disabled{
+            cursor: not-allowed;
+            background-color: #2C2C2C;
+            color: #fff;
+            text-align: center;
+        }
+        .btn:hover{
+            background-color: #2C2C2C;
+            color: #fff;
+            text-align: center;
+            transition: all .3s ease-in-out;
+        }
+        #cart{
+            font-size: larger;
+            position: relative;
+            --count: "0";
+        }
+
+        .notFound{
+            display: none;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            font-weight: bold;
+            color: #2C2C2C;
+            text-align: center;
+            width: 100%;
+            height: 50vh;
+        }
+        .notFound h1{
+            display: none;
+            font-size: 30px;
+            font-weight: bold;
+            color: #2C2C2C;
+            text-align: center;
+        }
+        .popUpSearch{
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            /* align-items: center; */
+            flex-direction: column;
+            font-size: 30px;
+            font-weight: bold;
+            color: #2C2C2C;
+            /* text-align: center;   */
+            width: 90%;
+            top: 13%;
+            height: auto;
+            background-color: #fff;
+            padding: 20px 0;
+
+        }
+        
+        .search-nav{
+            width: 100%;
+            height: 50px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            /* position: static; */
+        }
+        .search-body{
+            width: 100%;
+            display: flex;
+            /* justify-content: center; */
+            /* align-items: center; */
+            /* position: relative; */
+            padding: 0 20px;
+
+
+        }
+        .search-main{
+            display: flex;
+            align-items: center;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        .filters{
+            width: 100%;
+            display: flex;
+            /* justify-content: space-between; */
+            /* align-items: center; */
+            padding: 0 20px;
+            height: 50vh;
+            flex-direction: column;
+            /* position: static; */
+        }
+        .filters-nav{
+            width: 150px;
+            float: left;
+            display: flex;
+            /* height: 50vh; */
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: center;
+        }
+        .filters-nav img{
+            width: 100%;
+            height: 20px;
+        }
+        .filters-button span{
+            font-size: 16px;
+            color: rgb(21, 21, 61);
+            margin-left: 10px;
+        }
+        .filters-button *{
+            cursor: pointer; 
+        }
+        .filters-button input{
+            font-size: 16px;
+            color: rgb(21, 21, 61);
+        }
+        .filters-button input[type="checkbox"]{
+            width: 14px;
+            height: 14px;
+            border: 1px solid rgb(21, 21, 61);
+            border-radius: 10px;
+        }
+        .cross-icon-search{
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            /* right: 39%;
+             */
+            font-size: 30px;
+            border: none;
+            background-color: transparent;
+            opacity: 1;
+            /* position: absolute; */
+            
+        }
+
+        h1{
+            font-size: 30px;
+            font-weight: bold;
+            color: #2C2C2C;
+            text-align: center;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-links">
+            <a href="./admin.html">Admin</a>
+            <a href="./user.html">User</a>
+        </div>
+        <div class="search-bar" >
+            <button class="search-icon">
+                <i class="fa fa-magnifying-glass"></i>
+            </button>
+            <input type="text" placeholder="Search..." id="searchBar"> 
+            <button class="cross-icon">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+        </div>
+        <div class="navbar-cart">
+            <a href="./cart.html"><i class="fa-solid fa-cart-shopping"  ></i><span id="cart">Cart 0</span></a>
+        </div>
+    </div>
+    
+    <main>  
+        <div class="popUpSearch" >
+            <div class="search-nav">
+                <h1>Search Result </h1>
+                <button class="cross-icon-search">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="search-body">
+                <div class="search-sidebar">
+                    <div class="filters">
+                        <div class="filters-nav">
+                            <h5>Filters</h5>
+                            <img src="./img/unfilled-filter.svg" alt="">
+                        </div>
+                        <div class="filters-button">
+                            <h6>Price :</h6>
+                            <span><input type="radio" name="price" id="priceLowToHigh"> <span id="lToHBtn">Low To High</span></span><br>
+                            <span><input type="radio" name="price" id="priceHighToLow"> <span id="hToLBTn">High To Low</span></span>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="popUpSearch" class="search-main">
+                    <div class="notFound">
+                        <h1>Not Found</h1>
+                    </div>
+                </div>  
+            </div>
+            
+        </div>
+        
+    </main>
+
+    <script>
+
+        const searchBar = document.getElementById('searchBar');
+        const searchIcon = document.querySelector('.search-icon');
+        const crossIcon = document.querySelector('.cross-icon');
+        const notFound = document.querySelector('.notFound');
+        const notFoundH1 = document.querySelector('.notFound h1');
+        const card1 = document.querySelectorAll('.card');
+        const popUpSearch = document.getElementById('popUpSearch');
+        const popUpSearchDiv = document.querySelector('.popUpSearch');
+        const crossIconSearch = document.querySelector('.cross-icon-search');
+        const priceLowToHigh = document.getElementById('priceLowToHigh');
+        const priceHighToLow = document.getElementById('priceHighToLow');
+        const lToHBtn = document.getElementById('lToHBtn');
+        const hToLBTn = document.getElementById('hToLBTn');
+
+
+        priceLowToHigh.addEventListener('click', () => {
+            console.log('low to high');
+            if(priceLowToHigh.checked){
+                console.log('checked');
+                const items = JSON.parse(localStorage.getItem('items'));
+                items.forEach(item => {
+                    // console.log(item);
+                    if(item.filter == true){
+                        console.log(item.price);
+                        matchedItems.sort((a, b) => {
+                            return a.price - b.price;
+                        } );
+                        console.log(matchedItems);
+                        popUpSearch.innerHTML = '';
+                        matchedItems.forEach((item,index) => {
+                            let card = document.createElement('div');
+                            card.classList.add('card1');
+                            card.innerHTML = `
+                            <img src="${item.imageUrl}">
+                            <div class="card-body">
+                                <p class="card-title">${item.name}</p>
+                                <p class="card-price filter-price" id="filterPrice${index}">₹${item.price}</p>
+                                <p class="card-text">${item.description}</p>
+                                <button class="btn" id="addToCartBtn" onclick="addToCart(${index})">Add To Cart</button>
+                            </div>
+                        `;
+                            popUpSearch.appendChild(card);
+                        })
+                    }
+                })
+            }else{
+                console.log('unchecked');
+                lToHBtn.style.color = '#000';
+                hToLBTn.style.color = 'rgb(21, 21, 61)';
+            }
+        } );
+
+        priceHighToLow.addEventListener('click', () => {
+            if(priceHighToLow.checked){
+                 console.log('checked');
+                const items = JSON.parse(localStorage.getItem('items'));
+                items.forEach(item => {
+                    // console.log(item);
+                    if (item.filter == true) {
+                        console.log(item.price);
+                        matchedItems.sort((a, b) => {
+                            return b.price - a.price;
+                        });
+                        console.log(matchedItems);
+                        popUpSearch.innerHTML = '';
+                        matchedItems.forEach((item, index) => {
+                            let card = document.createElement('div');
+                            card.classList.add('card1');
+                            card.innerHTML = `
+                            <img src="${item.imageUrl}">
+                            <div class="card-body">
+                                <p class="card-title">${item.name}</p>
+                                <p class="card-price filter-price" id="filterPrice${index}">₹${item.price}</p>
+                                <p class="card-text">${item.description}</p>
+                                <button class="btn" id="addToCartBtn" onclick="addToCart(${index})">Add To Cart</button>
+                            </div>
+                        `;
+                            popUpSearch.appendChild(card);
+                        })
+                    }
+                })
+            }else{
+                priceHighToLow.checked = true;
+            }
+        } );
+
+        popUpSearchDiv.style.display = 'none';
+        notFound.style.display = 'none';
+        crossIcon.style.display = "none";
+        searchBar.addEventListener('keyup', function(e){
+            crossIcon.style.display = "block";
+            searchIcon.style.opacity = '1';
+            if(e.keyCode == 13){
+                // window.location.href = './user.html?search=' + searchBar.value;
+                matchedItems.splice(0, matchedItems.length);
+                popUpSearchDiv.style.display = 'flex';
+                notFound.style.display = 'none';
+                notFoundH1.style.display = 'none';
+                searchProduct();
+            }
+        } );
+
+        crossIconSearch.addEventListener('click', function(){
+            popUpSearchDiv.style.display = 'none';
+        } );
+
+        searchIcon.addEventListener('click', function(){
+            // window.location.href = './user.html?search=' + searchBar.value;
+            matchedItems.splice(0, matchedItems.length);
+            popUpSearchDiv.style.display = 'flex';
+            notFound.style.display = 'none';
+            notFoundH1.style.display = 'none';
+            searchProduct();
+        } );
+
+        crossIcon.addEventListener('click', function(){
+            searchBar.value = '';
+            crossIcon.style.display = "none";
+            searchIcon.style.opacity = '0.5';
+
+            // window.location.href = './user.html';
+        } );
+
+        const matchedItems =[] ;
+
+        function searchProduct(){
+            // console.log("searching for " + searchBar.value);
+            const items = JSON.parse(localStorage.getItem('items'));
+            const searchText = searchBar.value;
+            // console.log(searchText);
+            if(searchText == null || searchText == ''){
+                // console.log("search text is empty");
+                window.location.href = './user.html';
+            }
+            else{
+                // console.log("search text is not empty");
+                popUpSearch.innerHTML = '';     
+                items.forEach((item,index) => {
+                    // console.log("Inside forEach");
+                    notFound.style.display = 'none';
+                    notFoundH1.style.display = 'none';
+                    // console.log("item name is " + item.name);
+                    // console.log("search text is " + searchText);
+                    if(item.name.toLowerCase().includes(searchText.toLowerCase())   ){
+                        // notFound.style.display = 'none';
+                        // notFoundH1.style.display = 'none';
+                        // console.log("found");
+                        item.filter = true;
+                        // displaySearch(item, index);
+                        localStorage.setItem('items', JSON.stringify(items));
+                        matchedItems.push(item);
+                    }
+                });
+                if(matchedItems.length == 0){
+                    notFound.style.display = 'flex';
+                    notFoundH1.style.display = 'block';
+                }
+                else{
+                    matchedItems.forEach((item,index) => {
+                        console.log(item);
+                        displaySearch(item, index);
+                    } );
+                }
+            }
+        }
+
+        function displaySearch(item, index){
+            // console.log("displaying " + item.name);
+            
+            // popUpSearch.innerHTML = '';
+                    let card = document.createElement('div');
+                    card.classList.add('card1');
+                    card.innerHTML = `
+                            <img src="${item.imageUrl}">
+                            <div class="card-body">
+                                <p class="card-title">${item.name}</p>
+                                <p class="card-price filter-price" id="filterPrice${index}">₹${item.price}</p>
+                                <p class="card-text">${item.description}</p>
+                                <button class="btn" id="addToCartBtn" onclick="addToCart(${index})">Add To Cart</button>
+                            </div>
+                        `;
+                        popUpSearch.appendChild(card);
+        }
+
+        // function displaySearch(){
+        //     const items = JSON.parse(localStorage.getItem('items'));
+        //     const main = document.querySelector('main');
+        //     main.innerHTML = '';
+        //     const matchedItems = items.filter(item => item.filter === true);
+            // console.log(matchedItems);
+        //     matchedItems.forEach((item,index) => {
+                
+                    // let card = document.createElement('div');
+                    // card.classList.add('card');
+                    // card.innerHTML = `
+                    //         <img src="${item.imageUrl}" alt="">
+                    //         <div class="card-body">
+                    //             <p class="card-title">${item.name}</p>
+                    //             <p class="card-price">₹${item.price}</p>
+                    //             <p class="card-text">${item.description}</p>
+                    //             <button class="btn" id="addToCartBtn" onclick="addToCart(${index})">Add To Cart</button>
+                    //         </div>
+                    //     `;
+        //             document.querySelector('main').appendChild(card);
+
+        //         } );
+            
+        //     localStorage.setItem('items', JSON.stringify(items));
+        //     // window.location.href = './user.html?search=' + searchItem;
+        // }
+        // searchProduct();
+
+
+        cartCount();
+        function addToCart(id){
+            const items = JSON.parse(localStorage.getItem("items"));
+            items.forEach((item,index) => {
+                if(index === id){
+                    items[index].addToCart = true;
+                    items[index].quantity = 1;
+                    localStorage.setItem("items", JSON.stringify(items));
+                    // console.log(items[index].addToCart);
+                    window.location.reload();
+                }
+            });
+            
+        }
+
+        function cartCount(){
+            const items = JSON.parse(localStorage.getItem("items"));
+            var count = 0;
+            items.forEach(item => {
+                let status = item.addToCart;
+                if (status == true) {
+                    document.getElementById("cart").innerText = "Cart " + ++count ;
+                    
+                }
+            })
+        }
+
+
+
+        function getItems(){
+            let items = JSON.parse(localStorage.getItem('items'));
+            if(items){
+                
+                if(items.length > 0){
+                    
+                    items.forEach((item,index) => {
+                        if(item.status == 'active'){
+                            let card = document.createElement('div');
+                            card.classList.add('card');
+                            card.innerHTML = `
+                            <img src="${item.imageUrl}" alt="">
+                            <div class="card-body">
+                                <p class="card-title">${item.name}</p>
+                                <p class="card-price">₹${item.price}</p>
+                                <p class="card-text">${item.description}</p>
+                                <button class="btn" id="addToCartBtn" onclick="addToCart(${index})">Add To Cart</button>
+                            </div>
+                        `;
+                            document.querySelector('main').appendChild(card);
+                        }
+                        else{
+                            console.log('no items');
+                        }
+                    });
+                } 
+            } 
+        }  
+        getItems();
+
+
+    </script>
+</body>
+</html>

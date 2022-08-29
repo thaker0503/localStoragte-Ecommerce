@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.css" />
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+    <title>Admin Page</title>
+    <style>
+        @import url('http://fonts.cdnfonts.com/css/poppins');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            position: relative;
+        }
+
+        .navbar {
+            width: 100%;
+            height: 50px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 0 20px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: #000;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .navbar-links {
+            width: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .navbar-cart {
+            width: 50%;
+
+        }
+
+        .navbar-cart a {
+            float: right;
+        }
+
+        .navbar-cart a i {
+            font-size: 20px;
+            color: rgb(21, 21, 61);
+        }
+
+        .addNewItem {
+            height: 50px;
+        }
+
+        .addNewItem button {
+            font-size: 30px;
+            text-decoration: none;
+            color: #2C2C2C;
+            float: right;
+            margin-right: 50px;
+            margin-top: 10px;
+            outline: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .addNewItem button:hover {
+            color: #000;
+        }
+
+        main {
+            width: 100%;
+            height: 100%;
+            font-size: 25px;
+            padding: 0 50px;
+        }
+
+        .tableDesign{
+            border: 2px solid #000;
+            width: 100%;
+            background-color: #2C2C2C;
+            color: #fff;
+        }
+        .tableDesign th{
+            background-color: #2C2C2C;
+            color: #fff;
+        }   
+        .tableDesign tr{
+            /* border: 2px solid #000; */
+            background-color: #fff;
+            color: #000;
+        }
+        .tableDesign tr:nth-child(odd){
+            /* border: 2px solid #000; */
+            background-color: #d7d7d7;
+            color: #000;
+        }
+        .tableDesign tr .status{
+            /* border: 2px solid #000; */
+            /* background-color: #2C2C2C; */
+            color: #000;
+            text-decoration: none;
+            width: max-content;
+            position: relative;
+        }
+
+        .tableDesign tr .status::before{
+            content: attr(data-tooltip);
+            font-size: 16px;
+            width: max-content;
+            color: rgba(218, 218, 218, 0.8);
+            background-color: rgb(83, 77, 77);
+            position: absolute;
+            top: -30px;
+            left: -50px;
+            padding: 5px;
+            border-radius: 5px;
+            visibility: hidden;
+        }
+
+        .tableDesign tr a:hover::before{
+            visibility: visible;
+            animation: tool-tip 0.3s ease-in-out;
+        }
+
+        tr {
+            text-align: center;
+        }
+
+        .popUpAdd,
+        .popUpEdit {
+            width: 50%;
+            height: 500px;
+            text-align: center;
+            /* Change here */
+            display: none;
+            justify-content: center;
+            flex-direction: column;
+            border: #2C2C2C solid 2px;
+            border-radius: 10px;
+            padding: 10px 20px;
+            background: #fff;
+            position: absolute;
+            top: 25%;
+            left: 25%;
+            transition: all 1s ease;
+        }
+
+        .popUpAdd h1,
+        .popUpEdit h1 {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .popUpAdd h1 button,
+        .popUpEdit h1 button {
+            font-size: 30px;
+            width: max-content;
+            color: #2C2C2C;
+            position: absolute;
+            right: 4%;
+            background-color: #fff;
+            cursor: pointer;
+            border: none;
+        }
+
+        #closeBtn:hover,
+        #closeEditBtn:hover {
+            color: #000;
+            background: #fff;
+        }
+
+        .popUpAdd input,
+        .popUpAdd textarea,
+        .popUpEdit input,
+        .popUpEdit textarea {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 20px;
+            padding-left: 10px;
+        }
+
+        .popUpAdd button,
+        .popUpEdit button {
+            width: 100%;
+            height: 40px;
+            border: 1px solid #000;
+            border-radius: 5px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .popUpAdd button:hover,
+        .popUpEdit button:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .addItemForm {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #editBtn {
+            color: #000;
+            background: #fff;
+            text-decoration: none;
+            background: transparent;
+        }
+
+        #editBtn::before {
+            content: "\f040";
+            font-family: FontAwesome;
+            font-size: 15px;
+            color: #000;
+        }
+
+        #deleteBtn {
+            color: #000;
+            background: #fff;
+            text-decoration: none;
+            background: transparent;
+        }
+
+        #deleteBtn::before {
+            content: "\f014";
+            font-family: FontAwesome;
+            text-align: center;
+            font-size: 15px;
+            color: #000;
+            margin: 10px;
+            border: none;
+        }
+
+        #statusBtn {
+            color: #000;
+            background: #fff;
+            text-decoration: none;
+            background: transparent;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <div class="navbar-links">
+            <a href="./admin.html">Admin</a>
+            <a href="./user.html">User</a>
+        </div>
+        <!-- <div class="navbar-cart">
+            <a href="#"><i class="fa-solid fa-cart-shopping"></i></a>
+        </div> -->
+    </div>
+    <div class="addNewItem">
+        <button href="#" id="addNewItem" onclick="addNewItem(event)">+ Add New Item</button>
+    </div>
+    <main>
+        
+        <div class="noItems">
+            <h1>No Items Available...</h1>
+        </div>
+
+        <table class="tableDesign">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Price</th>
+                <th>Edit</th>
+                <th>Active/Deactive</th>
+                <th>Delete</th>
+            </tr>
+        </table>
+        <div class="popUpAdd" id="popUpAdd">
+            <h1>Add New Item <button class="fa-solid fa-xmark" id="closeBtn" onclick="closeBtn(e)"></button></h1>
+
+            <form id="addItemForm" class="addItemForm">
+                <div class="alert alert-danger" role="alert">
+                    <span>Please fill out all fields.</span>
+                </div>
+                <input type="text" name="name" placeholder="Name" />
+                <input type="text" name="type" placeholder="Type" />
+                <input type="text" name="price" placeholder="Price" />
+                <textarea name="description" id="description" cols="30" rows="5" placeholder="Description"></textarea>
+                <input type="text" name="imageUrl" id="imageUrl" placeholder="Image url" />
+                <button type="submit" name="addItem" id="addItem" value="Add Item" onclick="addItemToLocal()" >Add
+                    Item</button>
+            </form>
+        </div>
+        <div class="popUpEdit" id="popUpEdit">
+            <h1>Edit Item <button class="fa-solid fa-xmark" id="closeEditBtn" onclick="closeBtn(e)"></button></h1>
+
+            <form id="editItemForm" class="editItemForm">
+                <input type="text" name="name" placeholder="Name" />
+                <input type="text" name="type" placeholder="Type" />
+                <input type="text" name="price" placeholder="Price" />
+                <textarea name="description" id="description" cols="30" rows="5" placeholder="Description"></textarea>
+                <input type="text" name="imageUrl" id="imageUrl" placeholder="Image url" />
+                <button type="submit" name="addItem" id="addItem" value="Add Item" onclick="addItemToLocal()">Edit
+                    Item</button>
+            </form>
+        </div>
+    </main>
+    <script>
+
+        
+        document.querySelector('.alert').style.display = 'none';
+        document.querySelector(".tableDesign").style.display = "none";
+        var items = JSON.parse(localStorage.getItem("items")) || [];
+        if(items.length > 0){
+            document.querySelector(".noItems").style.display = "none";
+            document.querySelector(".tableDesign").style.display = "table";
+        }
+
+        const closeBtn = document.getElementById('closeBtn');
+        closeBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('popUpAdd').style.display = 'none';
+        })
+
+        const closeEditBtn = document.getElementById('closeEditBtn');
+        closeEditBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('popUpEdit').style.display = 'none';
+        })
+
+        function addNewItem(e) {
+            var popUpAdd = document.getElementById("popUpAdd");
+            popUpAdd.style.display = "flex";
+            e.preventDefault();
+        }
+
+        function addItemToLocal() {
+            var form = document.getElementById('addItemForm'),
+                itemName = form.name.value,
+                itemType = form.type.value,
+                itemPrice = form.price.value,
+                itemDescription = form.description.value,
+                itemImageUrl = form.imageUrl.value;
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                if (validateForm(itemName, itemType, itemPrice, itemDescription, itemImageUrl)) {
+                    document.querySelector('.alert').style.display = 'block';
+                    setTimeout(function () {
+                        document.querySelector('.alert').style.display = 'none';
+                    }, 1500);
+                } else {
+                    document.querySelector('.alert').style.display = 'none';
+                    var item = {
+                        name: itemName,
+                        type: itemType,
+                        price: itemPrice,
+                        description: itemDescription,
+                        imageUrl: itemImageUrl,
+                        status: "Active"
+                    }
+                    items.push(item);
+                    localStorage.setItem("items", JSON.stringify(items));
+                    document.getElementById('popUpAdd').style.display = 'none';
+                    window.location.reload();
+                }
+            }),
+                form.reset();
+        }
+            
+        function editItem(index) {
+            console.log(index);
+            var popUpEdit = document.getElementById("popUpEdit");
+            popUpEdit.style.display = "flex";
+            var form = document.getElementById('editItemForm'),
+                itemName = form.name.value,
+                itemType = form.type.value,
+                itemPrice = form.price.value;
+                itemDescription = form.description.value,
+                itemImageUrl = form.imageUrl.value;
+            var items = JSON.parse(localStorage.getItem('items'));
+            form.name.value = items[index].name;
+            form.type.value = items[index].type;
+            form.price.value = items[index].price;
+            form.description.value = items[index].description;
+            form.imageUrl.value = items[index].imageUrl;
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                items[index].name = form.name.value;
+                items[index].type = form.type.value;
+                items[index].price = form.price.value;
+                items[index].description = form.description.value;
+                items[index].imageUrl = form.imageUrl.value;
+                localStorage.setItem('items', JSON.stringify(items));
+                form.reset();
+                document.getElementById('popUpEdit').style.display = 'none';
+                window.location.reload();
+
+        })
+        }
+
+        function deleteItem(index) {
+            var items = JSON.parse(localStorage.getItem('items'));
+            items.splice(index, 1);
+            localStorage.setItem('items', JSON.stringify(items));
+            window.location.reload();
+        }
+
+        function statusItem(index) {
+            var items = JSON.parse(localStorage.getItem('items'));
+            if (items[index].status == 'active') {
+                items[index].status = 'inactive';
+                document.getElementById(`statusBtn${index}`).innerHTML = 'inactive';
+            } else {
+                items[index].status = 'active';
+                document.getElementById(`statusBtn${index}`).innerHTML = 'active';
+            }
+            localStorage.removeItem('items');
+            localStorage.setItem('items', JSON.stringify(items));
+        }
+
+
+        function validateForm(itemName, itemType, itemPrice, itemDescription, itemImageUrl) {
+            if (itemName == '' || itemType == '' || itemPrice == '' || itemDescription == '' || itemImageUrl == '') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function getItems() {
+            const data = JSON.parse(localStorage.getItem("items"));
+            data.forEach(function (item, index) {
+                const table = document.getElementsByTagName("table")[0];
+                const row = table.insertRow();
+                const name = row.insertCell(0);
+                const type = row.insertCell(1);
+                const price = row.insertCell(2);
+                const edit = row.insertCell(3);
+                const status = row.insertCell(4);
+                const del = row.insertCell(5);
+                name.innerHTML = item.name;
+                type.innerHTML = item.type;
+                price.innerHTML = item.price;
+                edit.innerHTML = `<a href="#" id="editBtn" onclick="editItem(${index})"></a>`;
+                status.innerHTML = `<a href="#" id="statusBtn${index}" onclick="statusItem(${index})">${item.status}</a>`;
+                del.innerHTML = `<a href="#" id="deleteBtn" onclick="deleteItem(${index})"></a>`;
+            })
+        }
+        getItems();
+
+        
+        
+    </script>
+</body>
+
+</html>
